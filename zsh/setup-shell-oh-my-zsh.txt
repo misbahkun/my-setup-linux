@@ -1,0 +1,17 @@
+sudo apt update && sudo apt upgrade
+# req
+sudo apt install build-essential
+sudo apt-get install curl
+sudo apt-get install zsh
+sudo apt-get install git
+# install oh-my-zsh
+sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)"
+git clone https://github.com/zsh-users/zsh-syntax-highlighting ${ZSH_CUSTOM:-~/.oh-my-zsh/custom}/plugins/zsh-autosuggestions
+git clone https://github.com/zsh-users/zsh-autosuggestions ${ZSH_CUSTOM:-~/.oh-my-zsh/custom}/plugins/zsh-syntax-highlighting
+# rust install for package manager cargo
+curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh
+cargo install eza
+# set zsh for default shell
+chsh -s $(which zsh)
+# apply changes shell
+sudo reboot now
