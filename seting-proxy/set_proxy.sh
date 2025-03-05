@@ -1,4 +1,3 @@
-#!/bin/bash
 
 # Mengatur proxy untuk terminal
 echo "Menambahkan proxy ke ~/.bashrc..."
@@ -7,6 +6,12 @@ echo 'export https_proxy="http://127.0.0.1:10809"' >> ~/.bashrc
 echo 'export http_proxy="http://127.0.0.1:10809"' >> ~/.bashrc
 echo 'export all_proxy="socks5://127.0.0.1:10808"' >> ~/.bashrc
 source ~/.bashrc
+
+echo "Menambahkan proxy ke ~/.zshrc..."
+echo 'export no_proxy="localhost,127.0.0.0/8,::1"' >> ~/.zshrc
+echo 'export https_proxy="http://127.0.0.1:10809"' >> ~/.zshrc
+echo 'export http_proxy="http://127.0.0.1:10809"' >> ~/.zshrc
+echo 'export all_proxy="socks5://127.0.0.1:10808"' >> ~/.zshrc
 
 # Menetapkan proxy untuk Snap
 echo "Setting proxy for Snap..."
