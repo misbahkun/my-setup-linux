@@ -42,11 +42,4 @@ echo "Setting proxy untuk Git..."
 git config --global http.proxy $HTTP_PROXY
 git config --global https.proxy $HTTPS_PROXY
 
-# 5️⃣ (Opsional) Konfigurasi Snap (jika digunakan)
-if command -v snap &> /dev/null; then
-    echo "Setting proxy untuk Snap..."
-    sudo snap set system proxy.http="$SOCKS_PROXY"
-    sudo snap set system proxy.https="$SOCKS_PROXY"
-fi
-
 echo "✅ Proxy berhasil dikonfigurasi! Coba jalankan 'curl ifconfig.me' untuk cek IP."
