@@ -6,15 +6,15 @@ sed -i '/export no_proxy=/d' ~/.bashrc
 sed -i '/export https_proxy=/d' ~/.bashrc
 sed -i '/export http_proxy=/d' ~/.bashrc
 sed -i '/export all_proxy=/d' ~/.bashrc
-source ~/.bashrc
+. ~/.bashrc
 
 # Menghapus proxy untuk terminal
-echo "Menghapus proxy dari ~/.bashrc..."
+echo "Menghapus proxy dari ~/.zshrc..."
 sed -i '/export no_proxy=/d' ~/.zshrc
 sed -i '/export https_proxy=/d' ~/.zshrc
 sed -i '/export http_proxy=/d' ~/.zshrc
 sed -i '/export all_proxy=/d' ~/.zshrc
-source ~/.zshrc
+. ~/.zshrc
 
 # Menghapus konfigurasi proxy APT
 echo "Removing APT proxy..."
