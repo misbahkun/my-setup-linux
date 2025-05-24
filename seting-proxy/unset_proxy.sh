@@ -1,51 +1,38 @@
 #!/bin/bash
 
-# Fungsi untuk menghapus proxy di shell
-remove_shell_proxy() {
-  local shell_file=$1
-  if [ -f "$shell_file" ]; then
-    echo "Menghapus proxy dari $shell_file..."
-    sed -i '/# Proxy settings start/,/# Proxy settings end/d' "$shell_file"
-  fi
-}
+# Menghapus proxy untuk terminal
+echo "Menghapus proxy dari ~/.bashrc..."
+sed -i '/export no_proxy=/d' ~/.bashrc
+sed -i '/export https_proxy=/d' ~/.bashrc
+sed -i '/export http_proxy=/d' ~/.bashrc
+sed -i '/export all_proxy=/d' ~/.bashrc
+. ~/.bashrc
 
-# Menghapus variabel lingkungan di sesi saat ini
-unset no_proxy
-unset http_proxy
-unset https_proxy
-unset all_proxy
+# Menghapus proxy untuk terminal
+echo "Menghapus proxy dari ~/.zshrc..."
+sed -i '/export no_proxy=/d' ~/.zshrc
+sed -i '/export https_proxy=/d' ~/.zshrc
+sed -i '/export http_proxy=/d' ~/.zshrc
+sed -i '/export all_proxy=/d' ~/.zshrc
+. ~/.zshrc
 
-# Menghapus proxy untuk bash dan zsh
-remove_shell_proxy ~/.bashrc
-remove_shell_proxy ~/.zshrc
+# Menghapus konfigurasi proxy APT
+echo "Removing APT proxy..."
+sudo rm -f /etc/apt/apt.conf.d/01proxy
 
-# Menghapus proxy untuk Snap
-echo "Menghapus proxy untuk Snap..."
+# Menghapus proxy di Snap
+echo "Unsetting Snap proxy..."
 sudo snap unset system proxy.http
 sudo snap unset system proxy.https
 
-# Menghapus proxy untuk APT
-echo "Menghapus proxy untuk APT..."
-sudo rm -f /etc/apt/apt.conf.d/01proxy
+# Restart Snap agar perubahan diterapkan
+echo "Restarting Snap service..."
+sudo systemctl restart snapd
+snap refresh
 
-# Menghapus proxy untuk Git
-echo "Menghapus proxy untuk Git..."
+# Menghapus proxy dari Git
+echo "Removing Git proxy..."
 git config --global --unset http.proxy
 git config --global --unset https.proxy
 
-# Menghapus proxy untuk npm
-echo "Menghapus proxy untuk npm..."
-npm config rm proxy
-npm config rm https-proxy
-
-# Menghapus SSH proxy untuk GitHub
-echo "Menghapus SSH proxy untuk GitHub..."
-if [ -f ~/.ssh/config ]; then
-  sed -i '/Host github.com/,/ProxyCommand/d' ~/.ssh/config
-  # Hapus file jika kosong
-  if [ ! -s ~/.ssh/config ]; then
-    rm -f ~/.ssh/config
-  fi
-fi
-
-echo "Pengaturan proxy berhasil dihapus!"
+echo "Proxy settings removed successfully!"
