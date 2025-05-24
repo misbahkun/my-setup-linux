@@ -1,36 +1,69 @@
-# Mengatur proxy untuk terminal
-echo "Menambahkan proxy ke ~/.bashrc..."
-echo 'export no_proxy="localhost,127.0.0.0/8,::1"' >> ~/.bashrc
-echo 'export https_proxy="http://127.0.0.1:10809"' >> ~/.bashrc
-echo 'export http_proxy="http://127.0.0.1:10809"' >> ~/.bashrc
-echo 'export all_proxy="socks5://127.0.0.1:10808"' >> ~/.bashrc
-. ~/.bashrc
+#!/bin/bash
 
-# Mengatur proxy untuk terminal
-echo "Menambahkan proxy ke ~/.zshrc..."
-echo 'export no_proxy="localhost,127.0.0.0/8,::1"' >> ~/.zshrc
-echo 'export https_proxy="http://127.0.0.1:10809"' >> ~/.zshrc
-echo 'export http_proxy="http://127.0.0.1:10809"' >> ~/.zshrc
-echo 'export all_proxy="socks5://127.0.0.1:10808"' >> ~/.zshrc
-. ~/.zshrc
+# Konfigurasi proxy
+HTTP_PROXY="http://127.0.0.1:10809"
+HTTPS_PROXY="http://127.0.0.1:10809"
+ALL_PROXY="socks5://127.0.0.1:10808"
+NO_PROXY="localhost,127.0.0.0/8,::1"
 
+# Fungsi untuk mengatur proxy di shell
+configure_shell() {
+  local shell_file=$1
+  if [ -f "$shell_file" ]; then
+    echo "Mengatur proxy di $shell_file..."
+    # Hapus pengaturan proxy sebelumnya
+    sed -i '/# Proxy settings start/,/# Proxy settings end/d' "$shell_file"
+    # Tambahkan pengaturan baru
+    cat << EOF >> "$shell_file"
+# Proxy settings start
+export no_proxy="$NO_PROXY"
+export http_proxy="$HTTP_PROXY"
+export https_proxy="$HTTPS_PROXY"
+export all_proxy="$ALL_PROXY"
+# Proxy settings end
+EOF
+  fi
+}
 
+# Mengatur variabel lingkungan di sesi saat ini
+export no_proxy="$NO_PROXY"
+export http_proxy="$HTTP_PROXY"
+export https_proxy="$HTTPS_PROXY"
+export all_proxy="$ALL_PROXY"
 
-# Menetapkan proxy untuk Snap
-echo "Setting proxy for Snap..."
-sudo snap set system proxy.http="socks5://127.0.0.1:10808"
-sudo snap set system proxy.https="socks5://127.0.0.1:10808"
+# Mengatur proxy untuk bash dan zsh
+configure_shell ~/.bashrc
+configure_shell ~/.zshrc
 
-# Konfigurasi proxy untuk APT
-echo "Configuring APT proxy..."
-echo 'Acquire::http::Proxy "http://127.0.0.1:10809/";' | sudo tee /etc/apt/apt.conf.d/01proxy > /dev/null
-echo 'Acquire::https::Proxy "http://127.0.0.1:10809/";' | sudo tee -a /etc/apt/apt.conf.d/01proxy > /dev/null
+# Mengatur proxy untuk Snap (menggunakan HTTP, bukan SOCKS5)
+echo "Mengatur proxy untuk Snap..."
+sudo snap set system proxy.http="$HTTP_PROXY"
+sudo snap set system proxy.https="$HTTPS_PROXY"
 
-# Konfigurasi proxy untuk Git
-echo "Configuring Git proxy..."
-git config --global http.proxy socks5://127.0.0.1:10808
-git config --global https.proxy socks5://127.0.0.1:10808
-git config --global http.proxy http://127.0.0.1:10809
-git config --global https.proxy http://127.0.0.1:10809
+# Mengatur proxy untuk APT
+echo "Mengatur proxy untuk APT..."
+sudo mkdir -p /etc/apt/apt.conf.d
+echo "Acquire::http::Proxy \"$HTTP_PROXY\";" | sudo tee /etc/apt/apt.conf.d/01proxy > /dev/null
+echo "Acquire::https::Proxy \"$HTTPS_PROXY\";" | sudo tee -a /etc/apt/apt.conf.d/01proxy > /dev/null
 
-echo "Proxy settings applied successfully!"
+# Mengatur proxy untuk Git (hanya HTTP untuk HTTPS remote)
+echo "Mengatur proxy untuk Git..."
+git config --global http.proxy "$HTTP_PROXY"
+git config --global https.proxy "$HTTPS_PROXY"
+
+# Mengatur proxy untuk npm
+echo "Mengatur proxy untuk npm..."
+npm config set proxy "$HTTP_PROXY"
+npm config set https-proxy "$HTTPS_PROXY"
+
+# Mengatur SSH proxy untuk GitHub
+echo "Mengatur SSH proxy untuk GitHub..."
+mkdir -p ~/.ssh && chmod 700 ~/.ssh
+cat << EOF > ~/.ssh/config
+Host github.com
+    User git
+    ProxyCommand nc -X 5 -x 127.0.0.1:10808 %h %p
+EOF
+chmod 600 ~/.ssh/config
+
+echo "Pengaturan proxy berhasil diterapkan!"
