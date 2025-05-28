@@ -21,8 +21,8 @@ sudo snap set system proxy.https="socks5://127.0.0.1:10808"
 
 # Konfigurasi proxy untuk APT
 echo "Configuring APT proxy..."
-echo 'Acquire::http::Proxy "socks5://127.0.0.1:10808/";' | sudo tee /etc/apt/apt.conf.d/01proxy > /dev/null
-echo 'Acquire::https::Proxy "socks5://127.0.0.1:10808/";' | sudo tee -a /etc/apt/apt.conf.d/01proxy > /dev/null
+echo 'Acquire::http::Proxy "http://127.0.0.1:10809/";' | sudo tee /etc/apt/apt.conf.d/01proxy > /dev/null
+echo 'Acquire::https::Proxy "http://127.0.0.1:10809/";' | sudo tee -a /etc/apt/apt.conf.d/01proxy > /dev/null
 
 # Konfigurasi proxy untuk Git
 echo "Configuring Git proxy..."
