@@ -29,4 +29,9 @@ echo "Configuring Git proxy..."
 git config --global http.proxy socks5://127.0.0.1:10808
 git config --global https.proxy socks5://127.0.0.1:10808
 
+# Konfigurasi proxy untuk NPM
+npm config set proxy http://127.0.0.1:10809
+npm config set https-proxy http://127.0.0.1:10809
+npm config set strict-ssl false
+
 echo "Proxy settings applied successfully!"

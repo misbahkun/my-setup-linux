@@ -35,4 +35,10 @@ echo "Removing Git proxy..."
 git config --global --unset http.proxy
 git config --global --unset https.proxy
 
+# Menghapus proxy untuk npm
+echo "Menghapus proxy untuk npm..."
+npm config delete proxy
+npm config delete https-proxy
+npm config delete strict-ssl
+
 echo "Proxy settings removed successfully!"
