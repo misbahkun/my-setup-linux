@@ -1,23 +1,16 @@
 # Mengatur proxy untuk terminal
-echo "Menambahkan proxy ke ~/.bashrc..."
-echo 'export no_proxy="localhost,127.0.0.0/8,::1"' >> ~/.bashrc
-echo 'export https_proxy="socks5//127.0.0.1:10808"' >> ~/.bashrc
-echo 'export http_proxy="socks5://127.0.0.1:10808"' >> ~/.bashrc
-echo 'export all_proxy="socks5://127.0.0.1:10808"' >> ~/.bashrc
-. ~/.bashrc
-
-# Mengatur proxy untuk terminal
 echo "Menambahkan proxy ke ~/.zshrc..."
 echo 'export no_proxy="localhost,127.0.0.0/8,::1"' >> ~/.zshrc
-echo 'export https_proxy="socks5://127.0.0.1:10808"' >> ~/.zshrc
-echo 'export http_proxy="socks5://127.0.0.1:10808"' >> ~/.zshrc
-echo 'export all_proxy="socks5://127.0.0.1:10808"' >> ~/.zshrc
+echo 'export https_proxy="http://127.0.0.1:10809"' >> ~/.zshrc
+echo 'export http_proxy="http://127.0.0.1:10809"' >> ~/.zshrc
+# echo 'export all_proxy="socks5://127.0.0.1:10808"' >> ~/.zshrc
+echo 'alias cursor="http_proxy=http://127.0.0.1:10809 https_proxy=http://127.0.0.1:10809 all_proxy=socks5://127.0.0.1:10808 ~/.local/bin/cursor.appimage ->"' >> ~/.zshrc
 . ~/.zshrc
 
 # Menetapkan proxy untuk Snap
 echo "Setting proxy for Snap..."
-sudo snap set system proxy.http="socks5://127.0.0.1:10808"
-sudo snap set system proxy.https="socks5://127.0.0.1:10808"
+sudo snap set system proxy.http="http://127.0.0.1:10809"
+sudo snap set system proxy.https="http://127.0.0.1:10809"
 
 # Konfigurasi proxy untuk APT
 echo "Configuring APT proxy..."
@@ -26,12 +19,7 @@ echo 'Acquire::https::Proxy "http://127.0.0.1:10809/";' | sudo tee -a /etc/apt/a
 
 # Konfigurasi proxy untuk Git
 echo "Configuring Git proxy..."
-git config --global http.proxy socks5://127.0.0.1:10808
-git config --global https.proxy socks5://127.0.0.1:10808
-
-# Konfigurasi proxy untuk NPM
-npm config set proxy http://127.0.0.1:10809
-npm config set https-proxy http://127.0.0.1:10809
-npm config set strict-ssl false
+git config --global http.proxy http://127.0.0.1:10809
+git config --global https.proxy http://127.0.0.1:10809
 
 echo "Proxy settings applied successfully!"

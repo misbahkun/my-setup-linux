@@ -1,19 +1,10 @@
-#!/bin/bash
-
-# Menghapus proxy untuk terminal
-echo "Menghapus proxy dari ~/.bashrc..."
-sed -i '/export no_proxy=/d' ~/.bashrc
-sed -i '/export https_proxy=/d' ~/.bashrc
-sed -i '/export http_proxy=/d' ~/.bashrc
-sed -i '/export all_proxy=/d' ~/.bashrc
-. ~/.bashrc
-
 # Menghapus proxy untuk terminal
 echo "Menghapus proxy dari ~/.zshrc..."
 sed -i '/export no_proxy=/d' ~/.zshrc
 sed -i '/export https_proxy=/d' ~/.zshrc
 sed -i '/export http_proxy=/d' ~/.zshrc
 sed -i '/export all_proxy=/d' ~/.zshrc
+sed -i '/alias cursor=/d' ~/.zshrc
 . ~/.zshrc
 
 # Menghapus konfigurasi proxy APT
@@ -35,10 +26,5 @@ echo "Removing Git proxy..."
 git config --global --unset http.proxy
 git config --global --unset https.proxy
 
-# Menghapus proxy untuk npm
-echo "Menghapus proxy untuk npm..."
-npm config delete proxy
-npm config delete https-proxy
-npm config delete strict-ssl
 
 echo "Proxy settings removed successfully!"
