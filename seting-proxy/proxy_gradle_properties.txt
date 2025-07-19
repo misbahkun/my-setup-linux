@@ -1,0 +1,8 @@
+# Proxy configuration
+systemProp.http.proxyHost=127.0.0.1
+systemProp.http.proxyPort=10809
+systemProp.https.proxyHost=127.0.0.1
+systemProp.https.proxyPort=10809
+systemProp.socksProxyHost=127.0.0.1
+systemProp.socksProxyPort=10808
+ >> ~/.gradle/gradle.properties && echo # SOCKS proxy configuration >> ~/.gradle/gradle.properties && echo systemProp.socksProxyHost=127.0.0.1 >> ~/.gradle/gradle.properties && echo systemProp.socksProxyPort=10808 >> ~/.gradle/gradle.properties
