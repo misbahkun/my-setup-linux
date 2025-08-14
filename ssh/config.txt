@@ -1,3 +1,10 @@
 Host github.com
     User git
     ProxyCommand nc -X 5 -x 127.0.0.1:10808 %h %p
+
+Host hostdata-mizz-natvps
+    HostName xxx.xxx.xxx.xxx
+    User mizz
+    IdentityFile ~/.ssh/id_ed25519
+    Port xxxxx
+    ProxyCommand nc -X 5 -x 127.0.0.1:10808 %h %p
