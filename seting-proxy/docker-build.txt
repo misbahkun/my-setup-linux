@@ -1,3 +1,6 @@
+# proxy di docker (ini saya proxy lokal nya v2rayn dengan host:port 127.0.0.1:10809 dan allow on lan)
+proxy_docker = http://host.docker.internal:10809
+
 # di Dockerfile
 ARG HTTP_PROXY
 ARG HTTPS_PROXY
@@ -7,6 +10,13 @@ ENV HTTPS_PROXY=$HTTPS_PROXY
 
 # contoh di terminal untuk build
 docker build -t username/images:1.0.0 \
-  --build-arg HTTP_PROXY="http://host.docker.internal:10809" \
-  --build-arg HTTPS_PROXY="http://host.docker.internal:10809" \
+  --build-arg HTTP_PROXY="proxy_docker" \
+  --build-arg HTTPS_PROXY="proxy_docker" \
   .
+
+# jika build di docker-compose tambahkan args setelah dockerfile
+# dan buat .env di root untuk pass HTTP_PROXY_URL dan HTTPS_PROXY_URL dan value nya proxy_docker
+      args:
+        - HTTP_PROXY=${HTTP_PROXY_URL}
+        - HTTPS_PROXY=${HTTPS_PROXY_URL}
+
