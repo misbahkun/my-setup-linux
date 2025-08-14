@@ -1,0 +1,12 @@
+# di Dockerfile
+ARG HTTP_PROXY
+ARG HTTPS_PROXY
+ENV HTTP_PROXY=$HTTP_PROXY
+ENV HTTPS_PROXY=$HTTPS_PROXY
+
+
+# contoh di terminal untuk build
+docker build -t username/images:1.0.0 \
+  --build-arg HTTP_PROXY="http://host.docker.internal:10809" \
+  --build-arg HTTPS_PROXY="http://host.docker.internal:10809" \
+  .
